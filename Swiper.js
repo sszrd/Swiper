@@ -10,6 +10,7 @@ class Swiper {
         this.height = 0;
         this.oImgList = null;
         this.index = 0;
+        this.startX = 0;
     }
 
     init() {
@@ -31,6 +32,9 @@ class Swiper {
             this.oImgList.appendChild(oImg);
         }
         this.oImgList.innerHTML += this.oImgList.innerHTML;
+        this.oImgList.addEventListener("touchstart", this.handleTouchStart);
+        this.oImgList.addEventListener("touchmove", this.handleTouchMove);
+        this.oImgList.addEventListener("touchend", this.handleTouchEnd);
     }
 
     start() {
@@ -38,7 +42,6 @@ class Swiper {
             this.time++;
             this.animationId = requestAnimationFrame(timer);
             if ((1000 / 60) * this.time >= this.delay) {
-                const sec = new Date().getSeconds();
                 this.time = 0;
                 this.next();
             }
@@ -63,5 +66,32 @@ class Swiper {
             this.time = this.delay;
             this.start();
         }
+    }
+
+    handleTouchStart = (e) => {
+        this.startX = e.changedTouches[0].pageX;
+        this.end();
+        this.oImgList.style.transition = "none";
+        if (this.index === 0) {
+            this.index = this.imgList.length;
+            this.oImgList.style.transform = `translate3D(${-this.index * this.width}px,0px,0px)`;
+        } else if (this.index === this.imgList.length * 2 - 1) {
+            this.index = this.imgList.length - 1;
+            this.oImgList.style.transform = `translate3D(${-this.index * this.width}px,0px,0px)`;
+        }
+    }
+
+    handleTouchMove = (e) => {
+        const offsetX = e.changedTouches[0].pageX - this.startX;
+        this.oImgList.style.transform = `translate3D(${-this.index * this.width + offsetX}px,0px,0px)`;
+    }
+
+    handleTouchEnd = (e) => {
+        const offsetX = e.changedTouches[0].pageX - this.startX;
+        if (Math.abs(offsetX) > 0.3 * this.width) {
+            this.index -= offsetX / Math.abs(offsetX);
+        }
+        this.oImgList.style.transition = `${this.interval / 1.5}s`;
+        this.oImgList.style.transform = `translate3D(${-this.index * this.width}px,0px,0px)`;
     }
 }
