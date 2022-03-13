@@ -1,6 +1,6 @@
 class Swiper {
-    constructor(options) {
-        this.root = options.root;
+    constructor(root, options) {
+        this.root = root;
         this.imgList = options.imgList;
         this.delay = options.delay || 3000;
         this.interval = options.interval || 1.5;
@@ -26,11 +26,11 @@ class Swiper {
         const rightButton = document.createElement("div");
         rightButton.className = "right-btn";
         leftButton.style.border = `solid ${this.width * 0.04}px`;
-        leftButton.style.borderColor = `transparent gray transparent transparent`;
-        leftButton.style.opacity = "0.5";
+        leftButton.style.borderColor = `transparent orangered transparent transparent`;
+        leftButton.style.opacity = "0.2";
         rightButton.style.border = `solid ${this.width * 0.04}px`;
-        rightButton.style.borderColor = `transparent transparent transparent gray`;
-        rightButton.style.opacity = "0.5";
+        rightButton.style.borderColor = `transparent transparent transparent orangered`;
+        rightButton.style.opacity = "0.2";
         //创建图片列表、下方导航列表
         this.oImgList = document.createElement("div");
         this.oImgList.className = "imgList";
@@ -64,11 +64,11 @@ class Swiper {
         this.oImgList.addEventListener("touchend", this.handleTouchEnd);
         //左右切换按钮事件绑定
         leftButton.addEventListener("click", this.handleLeft);
-        leftButton.addEventListener("mouseover", () => leftButton.style.opacity = "1");
-        leftButton.addEventListener("mouseleave", () => leftButton.style.opacity = "0.5");
+        leftButton.addEventListener("mouseover", () => leftButton.style.opacity = "0.6");
+        leftButton.addEventListener("mouseleave", () => leftButton.style.opacity = "0.2");
         rightButton.addEventListener("click", this.handleRight);
-        rightButton.addEventListener("mouseover", () => rightButton.style.opacity = "1");
-        rightButton.addEventListener("mouseleave", () => rightButton.style.opacity = "0.5");
+        rightButton.addEventListener("mouseover", () => rightButton.style.opacity = "0.6");
+        rightButton.addEventListener("mouseleave", () => rightButton.style.opacity = "0.2");
     }
 
     start() {
